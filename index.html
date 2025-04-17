@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+																References
+
+Get started with Bootstrap 5.3
+APA Citation: Bootstrap. (n.d.). Introduction. Bootstrap. https://getbootstrap.com/docs/5.3/getting-started/introduction/
+
+Responsive Web Design Basics
+APA Citation: Google. (n.d.). Responsive web design basics. Google Developers. https://web.dev/responsive-web-design-basics/
+
+Introduction to Web Accessibility
+APA Citation: World Wide Web Consortium (W3C). (n.d.). Introduction to web accessibility. https://www.w3.org/WAI/fundamentals/accessibility-intro/
+
+World Wide Web Consortium (W3C). (2016, October 7). C29: Using a style switcher to provide a conforming alternate version. W3C. https://www.w3.org/TR/WCAG20-TECHS/C29.html
+
+World Wide Web Consortium (W3C). (n.d.). Dynamic style – manipulating CSS with JavaScript. W3C Wiki. https://www.w3.org/wiki/Dynamic_style_-_manipulating_CSS_with_JavaScript
+
+W3Schools. (n.d.). JavaScript switch statement. https://www.w3schools.com/js/js_switch.asp&#8203;:contentReference[oaicite:1]{index=1}
+-->
+
+
+
+
+
+<!-- Head of code is focusing on responsive deign, through utilisation of Bootstrapp 5 CSS CDN in order to 
+have correct styling and layout. I am as well adding favicon for extra proffessional touch. 
+ Design of page is taylouted with primary stylesheet and extarnal styles.css and alt-styles.css files.
+As well I am using internal styles for header allignment. 
+ -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT Support Call Log</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" href="pictures/favicon-32x32.png" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css">
+  <link id="theme-style" rel="stylesheet" type="text/css" href="styles.css" />
+
+  <style>
+    .topbar {
+
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 48px;
+      margin-bottom: 20px;
+	  background: linear-gradient(to bottom, #fff, #ccc);
+	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .btn img {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<!-- At this stage body is designed, main bannner style and button links, so main support page can be 
+reached : ICT_Support_Caretakers.html. 
+Then , I am implementing style switcher buttons, so user can change between Bright
+and Gray Dark mode. 
+ -->
+<body>
+  <div class="container">
+    <header role="banner" aria-label="Main Header">
+      <div class="topbar">
+        <a href="ICT_Support_Caretakers.html" class="btn btn-primary btn-lg d-flex align-items-center gap-2" role="button" aria-label="Technical Support Button">
+          <img src="pictures/ICT_Hand.jpg" alt="Tech Support Icon" width="120" height="120" />
+          Technical Support
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <p>Welcome to iFixLangley, please press Blue Technical Support button</p>
+    </main>
+
+    <footer role="contentinfo" aria-label="Footer Section">
+      <div class="footer-left">
+        <img src="pictures/favicon-32x32.png" alt="iFixLangley Logo" width="32" height="32" />
+        <span>iFixLangley.</span>
+      </div>
+
+      <div class="style-switcher">
+        <button class="style-btn default-style" onclick="switchStyle('styles.css')" aria-label="Default Style"></button>
+        <button class="style-btn alt-style" onclick="switchStyle('alt-styles.css')" aria-label="Alternate Style"></button>
+      </div>
+    </footer>
+<!-- Java Script is implemented in order to change CSS themes. I am using switchStyle function which changing href attributes of linik, so I can swapp current
+styleshet from default "styles.css" into "alt-styles.css"
+Througout process, I am using document.getElementById("theme-style") and .setAttribute("href", styleFile)
+Thanks to such an approach, dynamic switch can happen whenever users request chnage. 
+
+ -->
+    <script>
+      function switchStyle(styleFile) {
+        document.getElementById("theme-style").setAttribute("href", styleFile);
+      }
+    </script>
+ </div>
+</body>
+
+</html>
