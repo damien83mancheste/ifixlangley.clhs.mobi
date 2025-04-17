@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- 
+																References
+																
+Kinsta. (2024, August 1). 14 CSS Best Practices for Beginners. https://kinsta.com/blog/css-best-practices/Kinsta®
+
+Mozilla Developer Network. (n.d.). Viewport meta tag. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tagMDN Web Docs+1LinkedIn+1
+
+Mozilla Developer Network. (n.d.). DOMTokenList: toggle() method. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/toggleMDN Web Docs
+
+Bootstrap. (n.d.). Containers. https://getbootstrap.com/docs/5.0/layout/containers/Stack Overflow+18Bootstrap+18YouTube+18
+
+W3Schools. (n.d.). How To Create a Top Navigation Bar. https://www.w3schools.com/howto/howto_js_topnav.aspW3Schools.com
+
+W3Schools. (n.d.). HTML form enctype Attribute. https://www.w3schools.com/tags/att_form_enctype.aspW3Schools.com
+
+W3Schools. (n.d.). HTML DOM Document getElementById() Method. https://www.w3schools.com/jsref/met_document_getelementbyid.aspW3Schools.com+1W3Schools.com+1
+
+Mozilla Developer Network. (n.d.). Document: DOMContentLoaded event. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_eventMDN Web Docs
+
+Mozilla Developer Network. (n.d.). Document: getElementById() method. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+
+-->
+
+
+<!--
+Summary1:
+Head section starts with essential matadata elements for resposivnes reasons. Next I am using Bootstrap for modern design results and MIcrosoft (MSAL) for allowing users to
+log as Microsoft 365 users in order to pass user name and emaill address to "form" and store localy on mobile device, so users don't have to rerype them again. 
+After favicon is added for proffessional look purposse I am adding function "toggleConsent()", which allow users to process with voice recording or not. 
+Function is design, in fasion that if not consented, disallow user to send user voice to AssemblyAI server. 
+
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT Support Call Log</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+  <script src="msal-login.js"></script>
+  <link rel="icon" href="pictures/favicon-32x32.png" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css">
+  <link id="theme-style" rel="stylesheet" type="text/css" href="styles.css" />
+
+  <script>
+    function toggleConsent() {
+      const consentYes = document.getElementById('consent-yes').checked;
+      const recordBtn = document.getElementById('startRecording');
+      recordBtn.disabled = !consentYes;
+    }
+  </script>
+</head>
+
+<!--
+Summary2:
+
+Container is designed through Bootstrap libraries, and features navigation button to previous page where suers can decide bwteen ICT and Site Maiteiance team call log. 
+Container as well includes style buttons, which allows user to target two differnt external styles CSS files ( styles.css and alt-styles.css)
+Now I start building "form" from with each element labled and input configured. Form is divided in three sections, where user can type test definning identiy, dynamicly pre-populated 
+room slection, issue categories and last option wher user can decibe issue. 
+
+-->
+
+<body>
+
+<div class="container">
+  <header role="banner" aria-label="Main Header">
+<div class="topbar">
+  <div class="style-switcher left">
+    <button class="style-btn default-style" onclick="switchStyle('styles.css')" aria-label="Default Style"></button>
+  </div>
+  <a href="ICT_Support_Caretakers.html" class="box">Home Page</a>
+  <div class="style-switcher right">
+    <button class="style-btn alt-style" onclick="switchStyle('alt-styles.css')" aria-label="Alternate Style"></button>
+  </div>
+</div>
+  </header>
+  <main>
+    <h2>Log Support Ticket</h2>
+  </main>
+
+  <form id="supportForm" method="post" enctype="multipart/form-data">
+    <label for="employee_name">Employee Name</label>
+    <input type="text" id="employee_name" name="employee_name" required />
+
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" required />
+
+    <label for="room_number">Room Number</label>
+    <select id="room_number" name="room_number" required></select>
+
+<label for="issue_category">Issue Category</label>
+<select id="issue_category" name="issue_category" required onchange="updateIssueTypes()">
+  <option value="">-- Select Category --</option>
+  <option value="Classroom">Classroom</option>
+  <option value="Office">Office</option>
+  <option value="User Accounts">User Accounts</option>
+  <option value="Other">Other</option>
+</select>
+
+<label for="issue_type">Issue Type</label>
+<select id="issue_type" name="issue_type" required>
+  <option value="">-- Select Type --</option>
+</select>
+
+<!--
+Summary3:
+
+Further in "form" description I added submit picture option, so user can take a phote and send to techical support as evidance. As previously explained user as well can
+descibe isssues by typing.
+
+Typing process is enhanced by adding voice-to-text transcription powwered by AI model. After transcrabing text is automaticaly saved into "Description" field. 
+In whole process "consent-Section" class is used which govern process of consenting or not by user. At the end Call is submitted.
+
+-->
+
+    <label for="submit_picture">Upload Picture:</label>
+    <input type="file" name="submit_picture" id="submit_picture" accept="image/*" />
+
+    <p>Provide a description via text or voice.</p>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="3" required></textarea>
+
+
+
+    <div class="consent-section">
+      <p><strong>Disclaimer:</strong> By using the voice feature, you consent to your voice being recorded and processed by third-party services including <a href="https://www.assemblyai.com/legal/data-processing-addendum" target="_blank">AssemblyAI</a>.</p>
+      <label><input type="radio" name="voiceConsent" value="yes" id="consent-yes" onclick="toggleConsent()"> Yes, I consent</label><br>
+      <label><input type="radio" name="voiceConsent" value="no" id="consent-no" onclick="toggleConsent()"> No, I do not consent</label>
+    </div>
+
+    <button type="button" id="startRecording" disabled style="margin-top: 10px;">
+      🎤 Use Voice to Fill Description
+    </button>
+    <div id="recordingStatus" style="margin-top: 10px; color: green; font-weight: bold;"></div>
+
+    <button type="submit">Log Call</button>
+  </form>
+
+<!--
+Summary4:
+
+After submission of call, user receies confirmation on screen confirming that call was submitted sucessfuuly. One again I am using favicon, so it dispaly school logo in footer. 
+At near future I will provide configuration that will as well send email to user in form of recipt. At this moment live visual configrmation is sufficient. Notification isconfigured
+so it show two messages, one is notification maeesage and another is "toast" notification. Reason for two mesasges is that certain devices, particulary iOS and Safari tend to
+block standar notification, so using two method I managed to provide feedback not matter the case.
+At the end I use a "switchStyle()" for allowing user to access Darker mode and improve experiance, based on personal preferences.  
+
+-->
+
+  <div id="confirmationMessage" style="display: none; margin-top: 20px;">
+    <div class="alert alert-success" role="alert">
+      Your support request has been successfully submitted and emailed to the technician.
+    </div>
+  </div>
+
+  <footer role="contentinfo" aria-label="Footer Section">
+    <p>
+      <img src="pictures/favicon-32x32.png" alt="iFixLangley Logo" width="32" height="32" />
+      iFixLangley.
+    </p>
+  </footer>
+</div>
+
+<div class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-3"
+     id="popupToast"
+     role="alert"
+     aria-live="assertive"
+     aria-atomic="true"
+     data-bs-delay="5000">
+  <div class="d-flex">
+    <div class="toast-body" id="toastBody">
+      Your support request has been successfully submitted.
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function switchStyle(styleFile) {
+    document.getElementById("theme-style").setAttribute("href", styleFile);
+  }
+</script>
+
+<!--
+Summary5:
+
+At this moment I configuring scrip that run after DOM is fully loaded, that why scripts are written at the bottom of page. AS code describe it uses dynamic populated menu
+predefined room numbers, each representing particular floor. NOTE: These only ilustrating names, as school real layout is diffrent.  On this stage data is collected and send 
+to PHP server, which is on my IONOS webserver. IN order to achive that I am using function "fetch() ". When succesfull, bootstrap toast is presented. 
+Woles scrip is desiged, in order to improve UX with real time feedback, as well and providing error handling. 
+-->
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const floors = ['G', 'F', 'S'];
+    const select = document.getElementById("room_number");
+    floors.forEach(floor => {
+      const maxRooms = floor === 'G' ? 29 : 30;
+      for (let i = 1; i <= maxRooms; i++) {
+        const room = `${floor}${i}`;
+        const option = document.createElement('option');
+        option.value = room;
+        option.textContent = room;
+        select.appendChild(option);
+      }
+    });
+
+    document.getElementById("supportForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const formData = new FormData(this);
+
+      fetch("https://ifixlangley.clhs.mobi/submit_support_call.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        const toastEl = document.getElementById('popupToast');
+        toastEl.classList.remove('show');
+        void toastEl.offsetWidth;
+        document.getElementById("toastBody").textContent = "Server Response: " + data;
+        const toast = new bootstrap.Toast(toastEl, {
+          autohide: true,
+          delay: 5000
+        });
+        toast.show();
+      })
+      .catch(error => {
+        console.error("Fetch error:", error);
+        document.getElementById("toastBody").textContent = "There was an error submitting your request.";
+      })
+      .finally(() => {
+        const form = document.getElementById("supportForm");
+        form.style.display = "none";
+        document.getElementById("confirmationMessage").style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  });
+</script>
+
+
+<!-- code used mainly from webiste https://www.assemblyai.com/app  .
+Code is made up "TypeScript SDK.
+1. Transcribe first audio file
+2. Identify speakers in audio
+3. Transcribe using Nano: the cost-effective speech model 
+
+																		References: 
+GitHub Repository:
+AssemblyAI. (n.d.). assemblyai-node-sdk [Code repository]. GitHub. https://github.com/AssemblyAI/assemblyai-node-sdk
+
+YouTube Video:
+Sonny Sangha. (2022, October 18). Speech recognition in JavaScript with AssemblyAI & Node.js [Video]. YouTube. https://www.youtube.com/watch?v=Yzb-1m-DaTI
+
+Blog Post:
+AssemblyAI. (2023, February 1). Getting started with speech-to-text transcriptions with AssemblyAI, JavaScript, and Node.js. https://www.assemblyai.com/blog/getting-started-with-speech-to-text-transcriptions-with-assemblyai-javascript-and-node-js
+
+GitHub Examples:
+AssemblyAI. (n.d.). realtime-transcription-browser-js-example [Code repository]. GitHub. https://github.com/AssemblyAI/realtime-transcription-browser-js-example
+AssemblyAI. (n.d.). assemblyai-node-sdk [Code repository]. GitHub. https://github.com/AssemblyAI/assemblyai-node-sdk
+
+
+
+ --!>
+<script>
+<!-- I am setting reference to DOM elements  --!>
+const button = document.getElementById('startRecording');
+const status = document.getElementById('recordingStatus');
+const textarea = document.getElementById('description');
+<!-- Variables are set for media data  --!>
+let mediaRecorder;
+let audioChunks = [];
+<!-- API associated with my free account on www.assemblyai.com   --!>
+const API_KEY = '8088f992a2ef446ab3eaba1c1f8c725f';
+<!-- This function is telling Java client to act on button click, and check if audio  recording is supported by browser. I am using navigator.mediaDevices.getUserMedia --!>
+<!--since it is considered relaibele and supported on Chrome for Android and Firefox browsers . Also it is important to use navigator.mediaDevices.getUserMedia only over HTTPS --!>
+
+button.onclick = async () => {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert("support voice recording unavaiable.");
+    return;
+  }
+<!-- Feature that prevents multiple clicks   --!>
+  status.textContent = 'Recording... Click to stop.';
+  button.disabled = true;
+<!--   --!>
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+  audioChunks = [];
+<!-- Prompting user for provideing access to microphone so it can start capturing audio data.  --!>
+  mediaRecorder.ondataavailable = event => {
+    if (event.data.size > 0) {
+      audioChunks.push(event.data);
+    }
+  };
+<!--  Function that governs audio upload --!>
+  mediaRecorder.onstop = async () => {
+    status.textContent = 'Transcribing audio to text';
+<!--  Crating Binary Large Object to store binary data chunks --!>
+    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+<!--  Now function is uploading recorded audio to www.assemblyai.com --!>
+    const uploadRes = await fetch('https://api.assemblyai.com/v2/upload', {
+      method: 'POST',
+      headers: { authorization: API_KEY },
+      body: audioBlob
+    });
+	
+    const { upload_url } = await uploadRes.json();
+<!--  Const is requesting transcription using remote service located on www.assemblyai.com server --!>
+    const transcriptRes = await fetch('https://api.assemblyai.com/v2/transcript', {
+      method: 'POST',
+      headers: {
+        authorization: API_KEY,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ audio_url: upload_url })
+    });
+
+    const transcriptData = await transcriptRes.json();
+<!-- Utilising Pooling command util API on server responds with possitive outcome, which is value true. Process is set for 3.5 seconds to last --!>
+    let completed = false;
+    let transcript;
+    while (!completed) {
+      await new Promise(res => setTimeout(res, 3500));
+      const pollingRes = await fetch(`https://api.assemblyai.com/v2/transcript/${transcriptData.id}`, {
+        headers: { authorization: API_KEY }
+      });
+      transcript = await pollingRes.json();
+      if (transcript.status === 'completed') completed = true;
+      if (transcript.status === 'error') {
+        status.textContent = 'Transcription failed.';
+        return;
+      }
+    }
+<!-- When reciving transcribed data from API server, data is saved into text ara, so user can check if it is accurate before submitting support call.  --!>
+    textarea.value = transcript.text;
+    status.textContent = 'Transcription complete!';
+    button.disabled = false;
+  };
+<!-- Start recording --!>
+  mediaRecorder.start();
+<!-- Command telling to stop recoding after 20 seconds, automaticaly, if user does not stop mannualy.   --!>
+  setTimeout(() => {
+    mediaRecorder.stop();
+  }, 20000); 
+};
+</script>
+
+<!-- Script that dynamicaly correletes  Issue Type from form with Issue cattegory, allwing users to correctly choose problem.   --!>
+<!-- Const is used in order to define veriable for issue types groups in JASON format    --!>
+<script>
+const issueTypes = {
+  "Classroom": ["PC/Laptop", "Display/Projector", "Keyboard", "Other"],
+  "Office": ["Printer", "Phone", "Software", "Other"],
+  "User Accounts": ["Email/Office 365", "Synergy/SIMS", "Student Account", "Other"],
+  "Other": ["Equipment setup", "Mass", "Parent's Evening", "Other"]
+};
+
+<!-- This stage starts from declaring funcion name so it can look at elements of form when requested. It takes element from "issue_cateogy"  and stores it in constant "categotySelect"      --!>
+function updateIssueTypes() {
+  const categorySelect = document.getElementById("issue_category");
+ <!-- Same as bove, but this time with sames as "typeselect")  --!> 
+  const typeSelect = document.getElementById("issue_type");
+ <!-- Finnaly, below element links "categorySelect" with veriable "selectCategory"  --!>
+  const selectedCategory = categorySelect.value;
+
+ <!-- remaining script code aplies "clear functionality  --!>
+  typeSelect.innerHTML = '<option value="">-- Select Type --</option>';
+ <!-- code checks if user select category and if it is in "issueTypes" list --!>
+ <!-- Further, is looking at array of issue types for example Printers and others. Using .forEach loop to look through whole array. In such a way we will get dropdown option for each--!>
+ <!-- Finnaly inside loop, constant option is uesed in order to create new element. New Option is attached to dropdown as .appenChild()   --!>
+  if (selectedCategory && issueTypes[selectedCategory]) {
+    issueTypes[selectedCategory].forEach(type => {
+      const option = document.createElement("option");
+      option.value = type;
+      option.textContent = type;
+      typeSelect.appendChild(option);
+    });
+  }
+}
+</script>
+
+
+</body>
+</html>
