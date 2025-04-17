@@ -1,3 +1,26 @@
+/*	
+
+														References
+														
+Mozilla. (n.d.). Basic concepts of flexbox. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox
+
+Mozilla. (n.d.). backdrop-filter. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter
+														
+
+My style.css file serve as base format to govern layout of HTML website. I used linear gradient background and blure effects. 
+
+Features: 
+
+- Code delivers cetered design with blur and shadow efecets around "form" container.
+- Box button are clickable and can be navigated with TAB button
+- Background color (light/dark styles) can be changed based on user preferences. 
+- Smooth fade-in visibility is used with toast notifications. 
+
+*/
+
+
+
+
 html, body {
   background: linear-gradient(to right, #ffffff, #f7f7f7);
   color: #1c1c1e;

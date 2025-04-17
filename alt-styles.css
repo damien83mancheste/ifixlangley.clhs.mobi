@@ -1,3 +1,28 @@
+/*	
+
+												References
+
+Mozilla. (n.d.). CSS reference. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
+
+Mozilla. (n.d.). backdrop-filter. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter
+
+Mozilla. (n.d.). Using CSS transitions. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions/Using_CSS_transitions
+
+
+	My alt-style.css file bring darh-themed and modern style. Styling and structure stay same but clocur coding is differnt. Ultimately, delivergin dark styled theme. 
+
+Features: 
+
+- Dark gradient background.
+- Frosted glass-style container.
+- Interactive form elements. 
+- Smooth fade-in visibility is used with toast notifications. 
+
+*/
+
+
+
+
 html, body {
   background: linear-gradient(to right, #0e0e0f, #58585c);
   color: #f5f5f7;
