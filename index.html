@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <!-- 
 																References
 
@@ -37,48 +38,99 @@ As well I am using internal styles for header allignment.
   <link rel="stylesheet" href="styles.css">
   <link id="theme-style" rel="stylesheet" type="text/css" href="styles.css" />
 
+
   <style>
     .topbar {
-
       padding: 20px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       font-size: 48px;
       margin-bottom: 20px;
-	  background: linear-gradient(to bottom, #fff, #ccc);
-	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to bottom, #fff, #ccc);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
-    .btn img {
-      vertical-align: middle;
+
+    .image-button {
+      display: inline-block;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+
+    .image-button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .image-button img {
+      display: block;
+      width: 100%;
+      max-width: 210px;
+      height: auto;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .style-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .default-style {
+      background-color: #ffffff;
+    }
+
+    .alt-style {
+      background-color: #000000;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .style-switcher {
+      display: flex;
+      gap: 10px;
     }
   </style>
 </head>
 
-<!-- At this stage body is designed, main bannner style and button links, so main support page can be 
-reached : ICT_Support_Caretakers.html. 
-Then , I am implementing style switcher buttons, so user can change between Bright
-and Gray Dark mode. 
+<!-- 
+Below code uses class="container" as foundation for image-button, which is link to subpage where users can choose form of support. 
  -->
 <body>
   <div class="container">
     <header role="banner" aria-label="Main Header">
       <div class="topbar">
-        <a href="ICT_Support_Caretakers.html" class="btn btn-primary btn-lg d-flex align-items-center gap-2" role="button" aria-label="Technical Support Button">
-          <img src="pictures/iFix.jpg" alt="Tech Support Icon" width="120" height="120" />
-          Technical Support
+        <a href="ICT_Support_Caretakers.html" class="image-button" aria-label="Technical Support Button">
+          <img src="pictures/iFix.jpg" alt="Tech Support Button" />
         </a>
       </div>
     </header>
 
     <main>
-      <p>Welcome to iFixLangley, please press Blue Technical Support button</p>
+      <p>Welcome to iFixLangley, please press logo to access Technical Support.</p>
     </main>
 
     <footer role="contentinfo" aria-label="Footer Section">
       <div class="footer-left">
-        <img src="pictures/favicon-32x32.png" alt="iFixLangley Logo" width="32" height="32" />
-        <span>iFixLangley.</span>
       </div>
 
       <div class="style-switcher">
@@ -86,18 +138,17 @@ and Gray Dark mode.
         <button class="style-btn alt-style" onclick="switchStyle('alt-styles.css')" aria-label="Alternate Style"></button>
       </div>
     </footer>
-<!-- Java Script is implemented in order to change CSS themes. I am using switchStyle function which changing href attributes of linik, so I can swapp current
+
+<!-- Java Script is implemented in order to change CSS themes. I am using switchStyle function which changing href attributes of link, so I can swapp current
 styleshet from default "styles.css" into "alt-styles.css"
 Througout process, I am using document.getElementById("theme-style") and .setAttribute("href", styleFile)
-Thanks to such an approach, dynamic switch can happen whenever users request chnage. 
-
+Thanks to such an approach, dynamic switch can happen whenever users request chanage. 
  -->
     <script>
       function switchStyle(styleFile) {
         document.getElementById("theme-style").setAttribute("href", styleFile);
       }
     </script>
- </div>
+  </div>
 </body>
-
 </html>
